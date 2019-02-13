@@ -3,3 +3,7 @@
   flows:
     - id: f1
       data_rate: 1
+      
+    # the following is a test. 
+    - id: f2 
+      data_rate: 1

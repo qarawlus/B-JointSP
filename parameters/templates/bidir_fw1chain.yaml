@@ -61,12 +61,12 @@ vlinks:
   - direction: backward
     src: vnf_web
     src_output: 0
-    dest: vnf_fw1
-    dest_input: 0
-    max_delay: 50
-  - direction: backward
-    src: vnf_fw1
-    src_output: 0
     dest: vnf_user
     dest_input: 0
     max_delay: 50
+  # - direction: backward
+  #   src: vnf_fw1
+  #   src_output: 0
+  #   dest: vnf_user
+  #   dest_input: 0
+  #   max_delay: 50
