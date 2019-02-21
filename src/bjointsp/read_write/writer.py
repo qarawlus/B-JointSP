@@ -33,7 +33,31 @@ def create_result_file(input_files, subfolder, seed=None, seed_subfolder=False, 
 
     return result_path
 
+def save_end2end_delay(result, edges, links):
 
+    # calculate the edge to edge delay for each flow
+    flow_delays = {}
+    path_delay = 0
+    for edge in edges:
+        for flow in edge.flows:
+            if flow.id not in flow_delays:
+                flow_delays[flow.id] = {0}
+
+            if edge.direction == "forward":
+                # check to see if component type is source , then add the vnf delay of the source of the edge
+                if edge.source.component.source:
+                    flow_delays[flow.id] += edge.source.component.vnf_delay 
+                # add the vnf delay of the destination only to avoid repition 
+                flow_delays[flow.id] += edge.dest.component.vnf_delay 
+            else:
+                # adding vnf_delays of destinations
+                flow_delays[flow.id] += edge.dest.component.vnf_delay
+        for path in edge.paths:
+            path_delay += sp.path_delay(links,path)
+
+
+    
+    return result
 # add variable values to the result dictionary
 def save_heuristic_variables(result, changed_instances, instances, edges, nodes, links):
     # save placement

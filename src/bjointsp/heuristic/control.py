@@ -84,36 +84,31 @@ def objective_value(overlays, print_info=False):
 
     
     
-    # BEGIN EXPERIMENTAL CODE
-    # calculate the edge to edge delay for each flow
-    flow_delays = {}
+    ## BEGIN EXPERIMENTAL CODE
+    ## calculate the edge to edge delay for each flow
+    # flow_delays = {}
 
-    for edge in edges:
-        for flow in edge.flows:
+    # for edge in edges:
+    #     for flow in edge.flows:
 
-            # flow_delays.append({"flow_id":flow.id,"source":edge.source.component.name,"dest":edge.dest.component.name, "direction":edge.direction,"delay":edge.dest.component.vnf_delay})
-            if flow.id not in flow_delays:
-                flow_delays[flow.id] = {"forward":0, "backward":0}
+    #         # flow_delays.append({"flow_id":flow.id,"source":edge.source.component.name,"dest":edge.dest.component.name, "direction":edge.direction,"delay":edge.dest.component.vnf_delay})
+    #         if flow.id not in flow_delays:
+    #             flow_delays[flow.id] = {"forward":0, "backward":0}
 
-            if edge.direction == "forward":
-                # check to see if component type is source , then add the vnf delay of the source of the edge
-                if edge.source.component.source:
-                    flow_delays[flow.id]["forward"] += edge.source.component.vnf_delay 
+    #         if edge.direction == "forward":
+    #             # check to see if component type is source , then add the vnf delay of the source of the edge
+    #             if edge.source.component.source:
+    #                 flow_delays[flow.id]["forward"] += edge.source.component.vnf_delay 
 
-                # add the vnf delay of the destination only to avoid repition -- calculation might be incorrect. 
-                flow_delays[flow.id]["forward"] += edge.dest.component.vnf_delay 
-            else:
-                # add delay of dests in backward direction
+    #             # add the vnf delay of the destination only to avoid repition -- calculation might be incorrect. 
+    #             flow_delays[flow.id]["forward"] += edge.dest.component.vnf_delay 
+    #         else:
 
-                # check to see if component type is end , then add the vnf delay of the source of the edge
-                if edge.source.component.end:
-                    flow_delays[flow.id]["backward"] += edge.source.component.vnf_delay 
+    #             # adding vnf_delays of destinations
+    #             flow_delays[flow.id]["backward"] += edge.dest.component.vnf_delay
+    # # END EXPERIMENTAL CODE 
 
-                # adding vnf_delays of destinations
-                flow_delays[flow.id]["backward"] += edge.dest.component.vnf_delay
-    # END EXPERIMENTAL CODE 
-
-
+    
     # calculate total consumed resources
     total_consumed_cpu = sum(consumed_cpu[v] for v in nodes.ids)
     total_consumed_mem = sum(consumed_mem[v] for v in nodes.ids)
